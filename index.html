@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Algebraic Methods in Optimization</title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="reveal.css">
+		<link rel="stylesheet" href="solarized.css" id="theme">
+        <style>
+            p {font-size: 30px}
+            li {font-size: 30px}
+        </style>
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<div class="slides">
+
+				<section>
+					<h2>Algebraic Methods in Optimization</h2>
+					<p>Kevin Shu</p>
+				</section>
+
+                <section>
+					<h3 style="margin-top:100px">Topics</h3>
+                    <section>
+                    <p>
+                    <ul style="font-size:27px">
+                        <li>Hyperbolic Polynomials and Eigenvalue Problems</li>
+                        <li>Hidden Convexity and Homotopy Theory</li>
+                        <li>Accelerating Gradient Descent</li>
+                    </ul>
+                    </p>
+                    </section>
+                </section>
+
+                <section>
+                    <h3>Hyperbolic Polynomials and Eigenvalue Problems</h3>
+                </section>
+                <section>
+                    <h4>Hyperbolic Polynomials and Eigenvalue Problems</h4>
+                    <section>
+                        <p>
+                            A polynomial \(f(x)\) is <i>hyperbolic</i> with respect to \(v \in \mathbb{R}^n\) if for every \(x \in \mathbb{R}^n\),
+                            \(
+                                g_x(t) = f(x + tv)
+                            \)
+                            has only real roots.
+                        </p>
+                        <p class="fragment fade-in">
+                            An important example comes from the determinant of a symmetric matrix, which is hyperbolic with respect to the identity matrix by the spectral theorem.
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Hyperbolic polynomials have associated hyperbolicity cones:
+                            \[
+                            \Lambda(f, v) = \{x \in \mathbb{R}^n : f(x+tv) > 0 \text{ for }t > 0\}.
+                            \]
+                            These are convex cones associated to the polynomial that generalize the positive semidefinite cone.
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            The \(k^{th}\) Renegar derivative of the PSD cone is given by \(\Lambda(c_{n-k}, I),\)
+
+                            where \(c_k\) is the chararacteristic coefficient defined by \[c_{n-k}(X) = D_I^{k} \det(X).\]
+                        </p>
+                        <p class="fragment fade-in">
+                            These are nice basis invariant convex cones of matrices, which are larger than the PSD cone. 
+                            When \(k = n -2\), this is the second order cone.
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            These Renegar derivatives are related to <i>sparse</i> analogues of the PSD cone. Let
+                            \[
+                                S^{n,k} = \{X \text{ symmetric}: \text{ all }k\times k\text{ submatrices of }X \text{ are PSD}\}.
+                            \]
+                        </p>
+
+                        <p>
+                            The dual to \(S^{n,k}\) is the <i>factor width \(k\)</i> cone, which can be used to describe sparse quadratic programs like sparse regression and sparse PCA.
+                            \[
+                                (S^{n,k})^* = \{X \text{ symmetric} : X = \sum v_i v_i^{\intercal}\text{ where }\|v_i\|_0 \le k\}
+                            \]
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            \(S^{n,k}\) is related to the Renegar derivatives because \[S^{n,k} \subseteq \Lambda(c_{n-k}, I).\]
+                        </p>
+                        <p class="fragment fade-in">
+                            This leads to some natural theorems about the matrices in \(S^{n,k}\):
+                        </p>
+                        <div style="background: grey; color: white; padding: 20px 20px 20px 20px" class="fragment fade-in">
+                            <h5 style="color: white;">Theorem<sup>1</sup></h5>
+                            <p >
+                                For any \(X \in S^{n,k}, \lambda_{\min}(X) \ge \frac{k-n}{n(k-1)}\text{tr}(X)\), and this inequality is met with equality for every \(n\) and \(k\).
+                            </p>
+                        </div>
+                    </section>
+                    <section>
+                        <p>
+                            Sparse regression and sparse PCA can be expressed as conic optimization problems over \(S^{n,k}\).
+                        </p>
+                        <p>
+                            We can consider the relationship between these two conic optimization problems:
+                            <div style="display:flex">
+                                <div style="flex:1">
+                                    \[\text{Minimize }\langle A, X\rangle\]
+                                    \[\text{such that }\langle B, X\rangle = 1\]
+                                    \[\qquad X \in (S^{n,k})^*\]
+                                </div>
+                                <div style="flex:1">
+                                    \[\text{Minimize }\langle A, X\rangle\]
+                                    \[\text{such that }\langle B, X\rangle = 1\]
+                                    \[\qquad X \in (\Lambda(c_{n-k}, I))^*\]
+                                </div>
+                            </div>
+                        </p>
+                        <p> It is possible to get some reasonable answers using techniques along these lines. </p>
+                    </section>
+                    <section>
+                        <p>I have explored a number of other questions along these lines:</p>
+                        <ul>
+                            <li> We considered related eigenvalue minimization problems over sets of matrices where some combinatorially specified set of submatrices are PSD.<sup>2</sup></li>
+                            <li> We considered generalizations of the Renegar derivatives of the PSD cone, and showed how many known results from linear algebra can be generalized to these new settings. <sup>3</sup></li>
+                            <li> We considered symmetric hyperbolic polynomials, and characterized what these look like in the cubic case, as well as giving some spectrahedral descriptions of their hyperbolicity cones. <sup>4</sup></li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h4>References</h4>
+                        <ol>
+                            <li> Blekherman, Grigoriy, et al. "Hyperbolic relaxation of k-locally positive semidefinite matrices." SIAM Journal on Optimization 32.2 (2022): 470-490. </li>
+                            <li> Blekherman, Grigoriy, and Kevin Shu. "Sums of squares and sparse semidefinite programming." SIAM Journal on Applied Algebra and Geometry 5.4 (2021): 651-674. </li>
+                            <li> Blekherman, Grigoriy, et al. "Linear principal minor polynomials: hyperbolic determinantal inequalities and spectral containment." International Mathematics Research Notices 2023.24 (2023): 21346-21380. </li>
+                            <li> Blekherman, Grigoriy, Julia Lindberg, and Kevin Shu. "Symmetric Hyperbolic Polynomials." arXiv preprint arXiv:2308.09653 (2023). </li>
+                        </ol>
+                    </section>
+                </section>
+
+
+
+                <section>
+                    <h3>Hidden Convexity and Homotopy Theory</h3>
+                </section>
+                <section>
+                    <section data-background-color="black">
+                        <h4>A Simple Problem</h4>
+                        <p style="color: white" data-id="problemDesc">
+                            Imagine you're an astronaut who is floating in space, and you can see the earth below you.
+                        </p>
+                        <img src="earth.svg" width="500px" data-id="earth"></img>
+                    </section>
+                    <section data-background-color="black" data-auto-animate>
+                        <h4>A Simple Problem</h4>
+                        <p style="color: white" data-id="problemDesc">
+                            You can also see some landmarks. You want to determine how you are oriented in space based on some reference.
+                        </p>
+                        <img src="earth2.svg" width="500px" data-id="earth"></img>
+                    </section>
+                    <section>
+                        <h4> Wahba's Problem</h4>
+                        <p>
+                            \[
+                                \min_{U \in \text{SO}(3)} \sum_{i=1}^n \|U v_i - u_i\|^2,
+                            \]
+                            where \(v_i\) are the reference points, and \(u_i\) are the estimates of the actual locations of the points. This is equivalent to
+                            \[
+                                \min_{U \in \text{SO}(3)} \langle V, U \rangle,
+                            \]
+                            where \(V = \sum_{i} u_i v_i^{\intercal}.\)
+                            
+                            This can be solved using SVDs.
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            <h4> Constrained Wahba's Problem</h4>
+                            \[
+                                \min_{U \in \text{SO}(3)} \langle V, U \rangle
+                            \]
+                            \[
+                                \text{s.t. } \langle U^*, U \rangle \le \delta.
+                            \]
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Surprisingly, this can be formulated as a convex problem:
+                        </p>
+                        <div style="background: grey; color: white; padding: 20px 20px 20px 20px">
+                            <h5 style="color: white;">Theorem <!--CITE--></h5>
+                            <p >
+                                For any \(A, B \in \mathbb{R}^{n\times n}\), \(\{\langle A, U\rangle, \langle B, U\rangle : U \in \text{SO}(n)\}\) is convex.
+                                <sup>1</sup>
+                            </p>
+                        </div>
+                        <p>
+                            This leads to an \(\epsilon\)-approximate algorithm for 1-constraint linear optimization over \(\text{SO}(n)\) in \(O(n^3 \log\left(\frac{1}{\epsilon}\right))\) using an ellipsoid-style algorithm.
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Why hidden convexity?
+                        </p>
+                        <div style="display:flex">
+                            <div style="flex:1">
+                                <img src="projection.png" width="200px" height="200px"></img>
+                            </div>
+                            <div style="flex:1">
+                                <img src="proj2.png" width="200px" height="200px"></img>
+                            </div>
+                            <div style="flex:1">
+                                <img src="proj3.png" width="200px" height="200px"></img>
+                            </div>
+                        </div>
+                        <p class="fragment fade-in">
+                            Observe that the boundaries are often smooth.
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            We consider maps \(f : X \rightarrow \R^k\) with \(X\) a topological space. We want to show that \(f(X)\) is convex.
+                        </p>
+                        <ol>
+                            <li class="fragment fade-in"> Show that there is a map from \(S^{k-1}\) to \(X\) that maps surjectively to the boundary of the convex hull of \(f(X)\). </li>
+                            <li class="fragment fade-in"> Argue that this map can be contracted in the image. </li>
+                        </ol>
+                        <p class="fragment fade-in"> The topological properties of convex sets then implies that the image of \(f(X)\) is convex.</p>
+
+                    </section>
+                    <section>
+                        <p>
+                            For \(f : \text{SO}(n) \rightarrow \R^2\), this looks like the following:
+                        </p>
+                        <ol>
+                            <li class="fragment fade-in"> Use the Von Neumann-Wigner noncrossing theorem to argue that (generically) the singular vectors of \(f^*(v)\) are continuous in \(v\). </li>
+                            <li class="fragment fade-in"> Note that the fundamental group of  \(\text{SO}(n)\) is finite, so the image of these curves is contractable. </li>
+                        </ol>
+                        <p class="fragment fade-in">This general approach can be used to prove a lot of hidden convexity theorems, including ones that work in higher dimensions.</p>
+                    </section>
+                    <section>
+                        <h4>References</h4>
+                        <ol>
+                            <li> Ramachandran, Akshay, Kevin Shu, and Alex L. Wang. "Hidden convexity, optimization, and algorithms on rotation matrices." arXiv preprint arXiv:2304.08596 (2023). </li>
+                        </ol>
+                    </section>
+                </section>
+
+
+
+
+                <section>
+                    <h3>Accelerated Gradient Descent</h3>
+                </section>
+                <section>
+                    <h3>Accelerated Gradient Descent</h3>
+                    <section>
+                        <p>
+                            Given a smooth convex function \(f\), we want to find the minimum of \(f\) using first order queries.
+                        </p>
+                        <p class="fragment fade-in">
+                            The best possible algorithm is Nesterov acceleration, which converges with \(\epsilon\) error in time \(O(\frac{1}{\sqrt{\epsilon}})\) (assuming good initialization).
+                        </p>
+                        <p class="fragment fade-in">
+                            Want to consider only gradient descent type algorithms which iterate
+                            \[
+                                x_{k+1} = x_k - \eta_k \nabla f(x_k),
+                            \]
+                            where \(\eta_k\) only does not depend on the values of \(f\).
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            Setting \(\eta_k\) to be any constant less than 2 leads to convergence in time \(O(\frac{1}{\epsilon})\).
+                        </p>
+                        <p class="fragment fade-in">
+                            Our recent work (as well as that of Altschuler and Parrilo) shows that it is possible to choose \(\eta_k\) so that the convergence is in time \(O(\frac{1}{\epsilon^p})\) with \(p < 1\).
+
+                            <i>(We have slightly different assumptions about how the procedure is intialized.)</i>
+                        </p>
+                        <p class="fragment fade-in">
+                            Our original work gives \(p = 0.946\), while Altschuler and Parrilo give \(p = \frac{1}{\log_2(1+\sqrt{2})} = 0.786\) in this setting.
+                            We are currently working on a modified version of the Altschuler-Parrilo sequence with an improved constant.
+                        </p>
+                    </section>
+                    <section>
+                        <p>
+                            All of these sequences involve the <i>silver ratio</i> \(\rho = 1+\sqrt{2}\) and roughly have the form \(\eta_k = \rho^{\nu(k)}\), where \(\nu(i)\) is the largest power of 2 dividing \(i\).
+                        </p>
+                        <p class="fragment fade-in">
+                            The proofs that these sequences work by combining inequalities of the form
+                            \[
+                                f(x) - f(y) \ge \langle \nabla f(y), x - y\rangle + \frac{1}{2L} \|\nabla f(x) - \nabla f(y)\|^2.
+                            \]
+                            These are the defining inequalities for the set of \(L\)-smooth convex functions.
+                        </p>
+                        <p class="fragment fade-in">
+                            By setting \(x_i = x_0 + \sum_{j = 0}^{i-1} \eta_j \nabla f(x_j),\) we can explicitly combine these inequalities in order to produce certificates that \(f(x_T) - f(x_*)\) is small.
+                        </p>
+                    </section>
+                    <section>
+                        <h4> Further Directions </h4>
+
+                        <ol>
+                            <li class="fragment fade-in"> Lower bounds? </li>
+                            <li class="fragment fade-in"> Have step size depend on the previous gradients (but still only move in gradient directions)? </li>
+                            <li class="fragment fade-in"> Can this be adapted to other settings? Stochastic or manifold settings? </li>
+                        </ol>
+                    </section>
+                    <section>
+                        <h4>References</h4>
+                        <ol>
+                            <li> Grimmer, Benjamin, Kevin Shu, and Alex L. Wang. "Accelerated gradient descent via long steps." arXiv preprint arXiv:2309.09961 (2023). </li>
+                            <li> Altschuler, Jason M., and Pablo A. Parrilo. "Acceleration by stepsize hedging II: Silver stepsize schedule for smooth convex optimization." arXiv preprint arXiv:2309.16530 (2023).</li>
+                        </ol>
+                    </section>
+                </section>
+			</div>
+
+		</div>
+
+		<script src="reveal.js"></script>
+		<script src="math.js"></script>
+		<script>
+			Reveal.initialize({
+				history: true,
+				transition: 'linear',
+
+				mathjax2: {
+					config: 'TeX-AMS_HTML-full',
+					TeX: {
+						Macros: {
+							R: '\\mathbb{R}',
+							set: [ '\\left\\{#1 \\; ; \\; #2\\right\\}', 2 ]
+						}
+					}
+				},
+
+				// There are three typesetters available
+				// RevealMath.MathJax2 (default)
+				// RevealMath.MathJax3
+				// RevealMath.KaTeX
+				//
+				// More info at https://revealjs.com/math/
+				plugins: [ RevealMath.MathJax2 ]
+			});
+		</script>
+
+	</body>
+</html>
