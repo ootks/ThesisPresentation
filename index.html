@@ -409,13 +409,19 @@
                                 \[
                                     \{(x^{\intercal}A_1x, \dots, x^{\intercal}A_kx) : \|x\|_2 = 1\}
                                 \]
-                                is convex.
+                                is convex. (Gutkin, Jonckheere, and Karow)
                             </li>
                             <li class="fragment fade-in" >
                                 Fix $\lambda \in \R^n$. If $M_{\lambda}$ is the set of symmetric matrix with eigenvalues $\lambda$, and $T :\R^{n \times n}_{sym} \rightarrow \R^2$ is a linear map, then 
-                                $T(M_{\lambda})$ is convex.
+                                $T(M_{\lambda})$ is convex. (Au-Yeung and Tsing)
                             </li>
                         </ul>
+                    </section>
+                    <section data-auto-animate>
+                        <h4> Origins of hidden convexity </h4>
+                        In general, we might want to know, for a topological space $X$ and a continuous function $f : X \rightarrow \R^k$, under what conditions might $f(X)$ be convex?
+
+                        We will give a criterion that implies the previous theorems (except for Horn's theorem).
                     </section>
                     <section data-auto-animate>
                         <h4> Origins of hidden convexity </h4>
@@ -616,21 +622,15 @@
                         \]
                     </section>
                     <section>
-                        <p>
-                            These Renegar derivatives are related to <i>sparse</i> analogues of the PSD cone. Let
-                            \[
-                                S^{n,k} = \{X \text{ symmetric}: \text{ all }k\times k\text{ submatrices of }X \text{ are PSD}\}.
-                            \]
-                        </p>
-
+                    </section>
+                    <section>
+                        <h4>Applications of $S^{n,k}$</h4>
                         <p>
                             The dual to \(S^{n,k}\) is the <i>factor width \(k\)</i> cone, which can be used to describe sparse quadratic programs like sparse regression and sparse PCA.
                             \[
                                 (S^{n,k})^* = \{X \text{ symmetric} : X = \sum v_i v_i^{\intercal}\text{ where }\|v_i\|_0 \le k\}
                             \]
                         </p>
-                    </section>
-                    <section>
                         <p>
                             Sparse regression and sparse PCA can be expressed as conic optimization problems over \(S^{n,k}\).
                         </p>
@@ -644,6 +644,7 @@
                         </p>
                     </section>
                     <section>
+                        <h4>Characteristic Polynomials in $S^{n,k}$</h4>
                         <p><b>Observation: </b> If $X \in S^{n,k}$, then for any $\ell \le k$,
                         \[
                             c^{n,\ell}(X) = \sum_{\substack{S \subseteq [n] \\ |S| = \ell}} \det(X|_S) \ge 0.
@@ -657,13 +658,20 @@
                         </p>
                     </section>
                     <section>
-                        <p><b>Observation: </b>
+                        <h4>Characteristic Polynomials in $S^{n,k}$</h4>
+                        <p>
                             This means that if $X \in S^{n,k}$, then the first $k$ coefficients of the characteristic polynomial of $X$ alternate in sign.
                             The set of symmetric matrices with this property is <b>convex!</b>
                         </p>
                         <p class="fragment fade-in">
                             This set is called the <i>hyperbolicity cone</i> of the polynomial $c^{n,k}$.
                         </p>
+                        <div style="background: grey; color: white; padding: 20px 20px 20px 20px" class="fragment fade-in">
+                            <h5 style="color: white;">Theorem<sup>1</sup></h5>
+                            <p >
+                                For any \(X \in S^{n,k}, \lambda_{\min}(X) \ge \frac{k-n}{n(k-1)}\text{tr}(X)\), and this inequality is met with equality for every \(n\) and \(k\).
+                            </p>
+                        </div>
                     </section>
                 </section>
                 <section>
