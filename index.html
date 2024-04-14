@@ -44,6 +44,9 @@
                     <section>
                         <h3>Accelerated Gradient Descent</h3>
                     </section>
+                    <section>
+                        <h3> Based on joint work with Ben Grimmer and Alex Wang </h3>
+                    </section>
                     <section data-auto-animate>
                         <h4>Accelerated Gradient Descent</h4>
                         <img src="hill1.png"> </img>
@@ -66,6 +69,13 @@
                         <p>
                             Given a smooth convex function \(f\), we want to find the minimum of \(f\) using first order queries.
                         </p>
+                        <ul class="fragment fade-in">
+                            <li><b> Convex</b> - $f(t x + (1-t) y) \le tf(x) + (1-t)f(y)$ whenever $t \in [0,1]$.</li>
+                            <li><b>Smooth</b> - $f$ is continuously differentiable, and its derivative is $L$-lipschitz. For now, set $L = 1$.</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>Accelerated Gradient Descent</h3>
                         <p>
                             The classic way to do this is to use gradient descent: starting at some point $x_0$, we iterate
                             \[
@@ -171,8 +181,8 @@
                         </div>
                     </section>
                     <section data-auto-animate>
-                        <h4>Performance estimation problem</h4>
-                        <div style="background: grey; color: white; padding: 20px 20px 20px 20px; margin-right:10px">
+                        <h4 id="h4123">Performance estimation problem</h4>
+                        <div id="thm123" style="background: grey; color: white; padding: 20px 20px 20px 20px; margin-right:10px">
                             <div id="ineq">
                             \[
                                 f(x_{2^k}) - f_{*} \le r_k \|x_0 - x_*\|^2 - Q,
@@ -185,6 +195,16 @@
                                 f(x) - f(y) \ge \langle \nabla f(y), x - y\rangle + \frac{1}{2L} \|\nabla f(x) - \nabla f(y)\|^2.
                             \]
                         </p>
+                    </section>
+                    <section data-auto-animate>
+                        <h4 id="h4123">Performance estimation problem</h4>
+                        <div  id="thm123" style="background: grey; color: white; padding: 20px 20px 20px 20px; margin-right:10px">
+                            <div id="ineq">
+                            \[
+                                f(x_{2^k}) - f_{*} \le r_k \|x_0 - x_*\|^2 - Q,
+                            \]
+                            </div>
+                        </div>
                         <p class="fragment fade-in">
                             If we denote by $g_i = \nabla f(x_i)$, then this inequality can be written
                             \[
@@ -211,7 +231,7 @@
                         </p>
                         <p class="fragment fade-in">
                             By taking nonnegative combinations of these inequalities, we can get new inequalities.
-                            This is called the performance estimation problem.
+                            This is called the performance estimation problem (Drori and Teboulle).
                         </p>
                     </section>
                     <section data-auto-animate>
@@ -266,16 +286,7 @@
                         <h2>Hidden Convexity and Homotopy Theory </h2>
                     </section>
                     <section>
-                        <h2> Coauthors </h2>
-                        <div style="display:flex">
-                            <div style="flex:1">
-                                <img src="akshay.jpg" height="200px"></img>
-                                <p> <b>Akshay Ramachandran</b> - CWI</p>
-                            </div>
-                            <div style="flex:1">
-                                <img src="alex.jpeg" height="200px"></img>
-                                <p> <b>Alex Wang</b> - Perdue University</p>
-                            </div>
+                        <h3> Based on joint work with Akshay Ramachandran and Alex Wang </h3>
                     </section>
 				</section>
 
@@ -398,13 +409,19 @@
                                 \[
                                     \{(x^{\intercal}A_1x, \dots, x^{\intercal}A_kx) : \|x\|_2 = 1\}
                                 \]
-                                is convex.
+                                is convex. (Gutkin, Jonckheere, and Karow)
                             </li>
                             <li class="fragment fade-in" >
                                 Fix $\lambda \in \R^n$. If $M_{\lambda}$ is the set of symmetric matrix with eigenvalues $\lambda$, and $T :\R^{n \times n}_{sym} \rightarrow \R^2$ is a linear map, then 
-                                $T(M_{\lambda})$ is convex.
+                                $T(M_{\lambda})$ is convex. (Au-Yeung and Tsing)
                             </li>
                         </ul>
+                    </section>
+                    <section data-auto-animate>
+                        <h4> Origins of hidden convexity </h4>
+                        In general, we might want to know, for a topological space $X$ and a continuous function $f : X \rightarrow \R^k$, under what conditions might $f(X)$ be convex?
+
+                        We will give a criterion that implies the previous theorems (except for Horn's theorem).
                     </section>
                     <section data-auto-animate>
                         <h4> Origins of hidden convexity </h4>
@@ -580,7 +597,12 @@
                 </section>
 
                 <section>
+                    <section>
                     <h3>Hyperbolic Polynomials and Eigenvalue Problems</h3>
+                    </section>
+                    <section>
+                        <h3> Based on joint work with various people </h3>
+                    </section>
                 </section>
                 <section>
                     <section>
@@ -600,21 +622,15 @@
                         \]
                     </section>
                     <section>
-                        <p>
-                            These Renegar derivatives are related to <i>sparse</i> analogues of the PSD cone. Let
-                            \[
-                                S^{n,k} = \{X \text{ symmetric}: \text{ all }k\times k\text{ submatrices of }X \text{ are PSD}\}.
-                            \]
-                        </p>
-
+                    </section>
+                    <section>
+                        <h4>Applications of $S^{n,k}$</h4>
                         <p>
                             The dual to \(S^{n,k}\) is the <i>factor width \(k\)</i> cone, which can be used to describe sparse quadratic programs like sparse regression and sparse PCA.
                             \[
                                 (S^{n,k})^* = \{X \text{ symmetric} : X = \sum v_i v_i^{\intercal}\text{ where }\|v_i\|_0 \le k\}
                             \]
                         </p>
-                    </section>
-                    <section>
                         <p>
                             Sparse regression and sparse PCA can be expressed as conic optimization problems over \(S^{n,k}\).
                         </p>
@@ -628,6 +644,7 @@
                         </p>
                     </section>
                     <section>
+                        <h4>Characteristic Polynomials in $S^{n,k}$</h4>
                         <p><b>Observation: </b> If $X \in S^{n,k}$, then for any $\ell \le k$,
                         \[
                             c^{n,\ell}(X) = \sum_{\substack{S \subseteq [n] \\ |S| = \ell}} \det(X|_S) \ge 0.
@@ -641,13 +658,20 @@
                         </p>
                     </section>
                     <section>
-                        <p><b>Observation: </b>
+                        <h4>Characteristic Polynomials in $S^{n,k}$</h4>
+                        <p>
                             This means that if $X \in S^{n,k}$, then the first $k$ coefficients of the characteristic polynomial of $X$ alternate in sign.
                             The set of symmetric matrices with this property is <b>convex!</b>
                         </p>
                         <p class="fragment fade-in">
                             This set is called the <i>hyperbolicity cone</i> of the polynomial $c^{n,k}$.
                         </p>
+                        <div style="background: grey; color: white; padding: 20px 20px 20px 20px" class="fragment fade-in">
+                            <h5 style="color: white;">Theorem<sup>1</sup></h5>
+                            <p >
+                                For any \(X \in S^{n,k}, \lambda_{\min}(X) \ge \frac{k-n}{n(k-1)}\text{tr}(X)\), and this inequality is met with equality for every \(n\) and \(k\).
+                            </p>
+                        </div>
                     </section>
                 </section>
                 <section>
